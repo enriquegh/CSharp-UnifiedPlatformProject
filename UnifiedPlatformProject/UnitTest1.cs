@@ -3,6 +3,7 @@ using NUnit.Framework;
 using NUnit.Framework.Interfaces;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Appium.Android;
+using OpenQA.Selenium.Appium;
 using OpenQA.Selenium.Remote;
 using OpenQA.Selenium.Support.UI;
 using ExpectedConditions = SeleniumExtras.WaitHelpers.ExpectedConditions;
@@ -21,13 +22,14 @@ namespace Selenium3.Nunit.Scripts.OnboardingTests
         public void UnifiedPlatformWebEMUSIM()
         {
 
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.SetCapability("deviceName", "Android GoogleAPI Emulator");
-            capabilities.SetCapability("deviceOrientation", "portrait");
-            capabilities.SetCapability("browserName", "Chrome");
-            capabilities.SetCapability("platformVersion", "8.0");
-            capabilities.SetCapability("platformName", "Android");
-            capabilities.SetCapability("name", TestContext.CurrentContext.Test.Name);
+            AppiumOptions capabilities = new AppiumOptions();
+            capabilities.PlatformName = "Android";
+            capabilities.AddAdditionalCapability("deviceName", "Android GoogleAPI Emulator");
+            capabilities.AddAdditionalCapability("deviceOrientation", "portrait");
+            capabilities.AddAdditionalCapability("browserName", "Chrome");
+            capabilities.AddAdditionalCapability("platformVersion", "8.0");
+            capabilities.AddAdditionalCapability("platformName", "Android");
+            capabilities.AddAdditionalCapability("name", TestContext.CurrentContext.Test.Name);
 
 
             _driver = new AndroidDriver<IWebElement>(new Uri("https://"+ sauceUserName + ":" + sauceAccessKey + "@ondemand.us-west-1.saucelabs.com:443/wd/hub"),
@@ -58,15 +60,15 @@ namespace Selenium3.Nunit.Scripts.OnboardingTests
         public void UnifiedPlatformNativeEMUSIM()
         {
             // Download app from https://github.com/saucelabs/sample-app-mobile/releases/download/2.2.1/Android.SauceLabs.Mobile.Sample.app.2.2.1.apk
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.SetCapability("deviceName", "Android GoogleAPI Emulator");
-            capabilities.SetCapability("deviceOrientation", "portrait");
-            capabilities.SetCapability("browserName", "");
-            capabilities.SetCapability("app", "sauce-storage:sample-sauce.apk");
-            capabilities.SetCapability("platformVersion", "7.0");
-            capabilities.SetCapability("platformName", "Android");
-            capabilities.SetCapability("name", TestContext.CurrentContext.Test.Name);
-            capabilities.SetCapability("appWaitActivity", "com.swaglabsmobileapp.MainActivity");
+            AppiumOptions capabilities = new AppiumOptions();
+            capabilities.PlatformName = "Android";
+            capabilities.AddAdditionalCapability("deviceName", "Android GoogleAPI Emulator");
+            capabilities.AddAdditionalCapability("deviceOrientation", "portrait");
+            capabilities.AddAdditionalCapability("browserName", "");
+            capabilities.AddAdditionalCapability("app", "sauce-storage:sample-sauce.apk");
+            capabilities.AddAdditionalCapability("platformVersion", "7.0");
+            capabilities.AddAdditionalCapability("name", TestContext.CurrentContext.Test.Name);
+            capabilities.AddAdditionalCapability("appWaitActivity", "com.swaglabsmobileapp.MainActivity");
 
 
             _driver = new AndroidDriver<IWebElement>(new Uri("https://" + sauceUserName + ":" + sauceAccessKey + "@ondemand.us-west-1.saucelabs.com:443/wd/hub"),
@@ -74,31 +76,30 @@ namespace Selenium3.Nunit.Scripts.OnboardingTests
 
             String source = _driver.PageSource;
             Console.WriteLine(source);
-            
 
-    
+
+
         }
 
         [Test]
         public void UnifiedPlatformNativeRDC()
         {
-            // Download app from https://github.com/saucelabs/sample-app-mobile/releases/download/2.2.1/Android.SauceLabs.Mobile.Sample.app.2.2.1.apk
-            DesiredCapabilities capabilities = new DesiredCapabilities();
-            capabilities.SetCapability("deviceName", "Samsung Galaxy.*");
-            capabilities.SetCapability("deviceOrientation", "portrait");
-            capabilities.SetCapability("browserName", "");
-            capabilities.SetCapability("app", "sauce-storage:sample-sauce.apk");
-            capabilities.SetCapability("platformName", "Android");
-            capabilities.SetCapability("name", TestContext.CurrentContext.Test.Name);
-            capabilities.SetCapability("appWaitActivity", "com.swaglabsmobileapp.MainActivity");
+            // download app from https://github.com/saucelabs/sample-app-mobile/releases/download/2.2.1/android.saucelabs.mobile.sample.app.2.2.1.apk
+            AppiumOptions capabilities = new AppiumOptions();
+            capabilities.PlatformName = "Android";
+            capabilities.AddAdditionalCapability("deviceName", "Samsung Galaxy.*");
+            capabilities.AddAdditionalCapability("deviceOrientation", "portrait");
+            capabilities.AddAdditionalCapability("browserName", "");
+            capabilities.AddAdditionalCapability("app", "sauce-storage:sample-sauce.apk");
+            capabilities.AddAdditionalCapability("name", TestContext.CurrentContext.Test.Name);
+            capabilities.AddAdditionalCapability("appWaitActivity", "com.swaglabsmobileapp.MainActivity");
 
 
             _driver = new AndroidDriver<IWebElement>(new Uri("https://" + sauceUserName + ":" + sauceAccessKey + "@ondemand.us-west-1.saucelabs.com:443/wd/hub"),
-                capabilities, TimeSpan.FromSeconds(600));
+              capabilities, TimeSpan.FromSeconds(600));
 
             String source = _driver.PageSource;
             Console.WriteLine(source);
-
 
 
         }
